@@ -12,6 +12,8 @@ const initialState = {
 
     jobsList: [],
 
+    usersAppForAJob: [],
+
 };
 
 const reducer = (state = initialState, action) => {
@@ -64,6 +66,17 @@ const reducer = (state = initialState, action) => {
         case 'GET_JOBS_LIST_ERROR':
             console.log('Am ajuns in reducer ERROR la detalii companie', action);
             return { ...state, error: action.error };
+
+        case 'GET_USERS_APP_SUCCESS':
+            return {...state, usersAppForAJob: action.payload};
+        case 'GET_USERS_APP_ERROR':
+            console.log('Am ajuns in reducer ERROR la users applications', action);
+            return { ...state, error: action.error };
+
+        case 'ACCEPT_APP_ERROR':
+            console.log('Am ajuns in reducer ERROR la accept app', action);
+            return { ...state, error: action.error };
+
         default:
             return state;
     }

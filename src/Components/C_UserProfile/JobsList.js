@@ -30,16 +30,14 @@ const styles = theme => ({
 function  JobsList(props){
     const {classes} = props;
 
-    // const onDelete = (id) => {
-    //     props.onDelete(id);
-    // }
-    //
-    // const onOpenEdit = (user) => {
-    //     props.onOpenEdit(user);
-    // }
     const changePage = (id, comp) => {
         props.changePage(id, comp);
-    }
+    };
+
+    const changePageToApp = (id) => {
+        props.changePageToApp(id);
+    };
+
     return(
 
         <div className={classes.root}>
@@ -60,6 +58,8 @@ function  JobsList(props){
                         </CardContent>
                         <CardActions>
                             <Button size="small" onClick={()=>changePage(n.id, n.companyId)}>Learn More</Button>
+                            {((localStorage.getItem('USER_ROLE') == 2) && (localStorage.getItem('USER_ID')==localStorage.getItem('COMPANY_USER_ID')))?
+                                <Button size="small" onClick={()=>changePageToApp(n.id)}>See Applications</Button>:null}
                         </CardActions>
                     </Card>
                 );})}
@@ -69,6 +69,7 @@ function  JobsList(props){
 
 const mapDispatchToProps = (dispatch) => ({
     changePage: (id, comp) => dispatch(jobsActions.onChangePage(id, comp)),
+    changePageToApp: (id) => dispatch(jobsActions.onChangePageToApp(id)),
 });
 const mapStateToProps = (state) => ({
     jobs: state.companyUserR.jobsList,

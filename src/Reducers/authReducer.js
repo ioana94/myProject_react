@@ -4,6 +4,7 @@ const initialState = {
     isLoggedIn: false,
     error: null,
     hideMenu: true,
+    openSnack: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -13,10 +14,10 @@ const reducer = (state = initialState, action) => {
             return state;
         case 'ON_LOGIN_SUCCESS':
             console.log('Am ajuns in reducer SUCCESS', action);
-            return { ...state, isLoggedIn: true, loggedInUserInfo: action.payload, open:false, hideMenu:false};
+            return { ...state, isLoggedIn: true, loggedInUserInfo: action.payload, open:false, hideMenu:false, openSnack: false };
         case 'ON_LOGIN_ERROR':
             console.log('Am ajuns in reducer ERROR', action);
-            return { ...state, error: action.error };
+            return { ...state, error: action.error, openSnack: true };
         case 'OPEN':
             return { ...state, open: true};
         case 'ON_LOGOUT':

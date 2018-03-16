@@ -11,6 +11,7 @@ import {connect} from "react-redux";
 import * as companyUserActions from "../../Actions/companyUserActions";
 import * as jobsActions from "../../Actions/jobsActions";
 import CreateJob from "../Jobs/Create";
+import CreateJob1 from "../Jobs/CCreate";
 
 
 function CompaniesInfo (props){
@@ -50,12 +51,10 @@ function CompaniesInfo (props){
                 <IconButton color='secondary' onClick={()=>onOpenEdit(props.companyDetails)}>
                     <ModeEdit />
                 </IconButton>
-                <IconButton color='secondary' onClick={openAddJob}>
+                <IconButton color='secondary' onClick={() => openAddJob()}>
                     <AddCircleOutline />
                 </IconButton>
-                <Dialog open={props.openAdd}>
-                    <CreateJob/>
-                </Dialog>
+
             </div>
                 :null}
             <div style={style.content}>
@@ -102,6 +101,10 @@ function CompaniesInfo (props){
                 <EditUserCompany/>
             </Dialog>
 
+            <Dialog open={props.openAdd}>
+                {/*<CreateJob/>*/}
+                <CreateJob1/>
+            </Dialog>
         </div>
     );
 }

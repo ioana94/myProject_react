@@ -11,6 +11,7 @@ import { ListItemIcon, ListItemText } from 'material-ui/List';
 import { MenuList, MenuItem } from 'material-ui/Menu';
 import Paper from 'material-ui/Paper';
 import People from 'material-ui-icons/People';
+import Spellcheck from 'material-ui-icons/Spellcheck';
 import StarBorder from 'material-ui-icons/StarBorder';
 
 import { Link } from 'react-router-dom';
@@ -47,7 +48,7 @@ function Sidebar(props) {
         <Paper className={classes.menu}>
             <MenuList >
                 {(localStorage.getItem("USER_ROLE") == 3)?
-                    <Link to={"/myprofile"} className={classes.link}>
+                    <Link to={`/myprofile/${localStorage.getItem('USER_ID')}`} className={classes.link}>
                         <MenuItem className={classes.menuItem}>
                             <ListItemIcon className={classes.icon} >
                                 <AccountCircle />
@@ -66,6 +67,7 @@ function Sidebar(props) {
                     </Link>:
                         null
                 }
+
                 {(localStorage.getItem("USER_ROLE") != 1)?<div>
                     <Link to={"/companies"} className={classes.link}>
                             <MenuItem className={classes.menuItem}>

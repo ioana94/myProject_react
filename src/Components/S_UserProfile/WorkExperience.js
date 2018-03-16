@@ -57,32 +57,32 @@ function WorkExperience (props) {
         <Paper style={style.root}>
             <div style={style.header}>
                 <h2>Work Experience</h2>
-                <div hidden={!props.hide}>
-                    <div hidden={props.open}>
-                        <IconButton color="secondary" onClick={() => onOpenAdd()}>
-                            <AddCircle/>
-                        </IconButton>
-                    </div>
-                    <div hidden={!props.open}>
-                        <IconButton color="secondary" onClick={() => onCloseAdd()}>
-                            <Close/>
-                        </IconButton>
-                    </div>
-                </div>
+                {/*<div hidden={!props.hide}>*/}
+                    {/*<div hidden={props.open}>*/}
+                        {/*<IconButton color="secondary" onClick={() => onOpenAdd()}>*/}
+                            {/*<AddCircle/>*/}
+                        {/*</IconButton>*/}
+                    {/*</div>*/}
+                    {/*<div hidden={!props.open}>*/}
+                        {/*<IconButton color="secondary" onClick={() => onCloseAdd()}>*/}
+                            {/*<Close/>*/}
+                        {/*</IconButton>*/}
+                    {/*</div>*/}
+                {/*</div>*/}
             </div>
 
-            <div hidden={!props.open}>
-                <TextField
-                    type="text"
-                    name="newWExp"
-                    label="New Work Experience"
-                    style={style.textField}
-                    //onChange={(e) => {props.companyToUpdate.contactInfo.email = e.target.value; console.log(props.companyToUpdate.contactInfo.email)}}
-                />
-            </div>
+            {/*<div hidden={!props.open}>*/}
+                {/*<TextField*/}
+                    {/*type="text"*/}
+                    {/*name="newWExp"*/}
+                    {/*label="New Work Experience"*/}
+                    {/*style={style.textField}*/}
+                    {/*//onChange={(e) => {props.companyToUpdate.contactInfo.email = e.target.value; console.log(props.companyToUpdate.contactInfo.email)}}*/}
+                {/*/>*/}
+            {/*</div>*/}
             <br/>
             {/* ================= NORMAL SHOWING OF DETAILS ======================*/}
-            <div hidden={props.hide}>
+            <div>
                 {props.workexp.map(n=> {
                     return(
                         <div key={n.id}>
@@ -105,50 +105,50 @@ function WorkExperience (props) {
                 })}
             </div>
             {/* ================= EDIT MODE SHOWING OF DETAILS ======================*/}
-            <div hidden={!props.hide}>
-                {props.workexp.map(n=> {
-                    return(
-                        <div key={n.id}>
-                            <Grid container>
-                                <Grid item xs={1}>
-                                    <Grid container>
-                                        <Grid item xs={12} style={style.editButton}>
-                                            <IconButton color="default"
-                                                // onClick={() => onDeleteSkill(n.id)}
-                                            >
-                                                <Edit/>
-                                            </IconButton> </Grid>
-                                    </Grid>
-                                </Grid>
-                                <Grid item xs={1}>
-                                    <Grid container>
-                                        <Grid item xs={12} style={style.tableDescr}><Moment format="MMM-YYYY" date={n.startDate}/> -<br/> <Moment format="MMM-YYYY" date={n.endDate}/></Grid>
-                                    </Grid>
-                                </Grid>
-                                <Grid item xs={10}>
-                                    <Grid container>
-                                        <Grid item xs={12} style={style.companyTitle} >{n.institution}</Grid>
-                                        <Grid item xs={12} >{n.description}</Grid>
-                                    </Grid>
-                                </Grid>
-                            </Grid>
-                        </div>
-                    );
-                })}
-            </div>
+            {/*<div hidden={!props.hide}>*/}
+                {/*{props.workexp.map(n=> {*/}
+                    {/*return(*/}
+                        {/*<div key={n.id}>*/}
+                            {/*<Grid container>*/}
+                                {/*<Grid item xs={1}>*/}
+                                    {/*<Grid container>*/}
+                                        {/*<Grid item xs={12} style={style.editButton}>*/}
+                                            {/*<IconButton color="default"*/}
+                                                {/*// onClick={() => onDeleteSkill(n.id)}*/}
+                                            {/*>*/}
+                                                {/*<Edit/>*/}
+                                            {/*</IconButton> </Grid>*/}
+                                    {/*</Grid>*/}
+                                {/*</Grid>*/}
+                                {/*<Grid item xs={1}>*/}
+                                    {/*<Grid container>*/}
+                                        {/*<Grid item xs={12} style={style.tableDescr}><Moment format="MMM-YYYY" date={n.startDate}/> -<br/> <Moment format="MMM-YYYY" date={n.endDate}/></Grid>*/}
+                                    {/*</Grid>*/}
+                                {/*</Grid>*/}
+                                {/*<Grid item xs={10}>*/}
+                                    {/*<Grid container>*/}
+                                        {/*<Grid item xs={12} style={style.companyTitle} >{n.institution}</Grid>*/}
+                                        {/*<Grid item xs={12} >{n.description}</Grid>*/}
+                                    {/*</Grid>*/}
+                                {/*</Grid>*/}
+                            {/*</Grid>*/}
+                        {/*</div>*/}
+                    {/*);*/}
+                {/*})}*/}
+            {/*</div>*/}
         </Paper>
     );
 }
 
 const mapStateToProps = (state) => ({
     workexp: state.simpleUserR.workExperience,
-    hide: state.simpleUserR.hideEdit,
-    open: state.simpleUserR.openAddWExp,
+    // hide: state.simpleUserR.hideEdit,
+    // open: state.simpleUserR.openAddWExp,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onOpenAdd: () => dispatch(simpleUserActions.onOpenAddWExp()),
-    onCloseAdd: () => dispatch(simpleUserActions.onCloseAddWExp()),
+    // onOpenAdd: () => dispatch(simpleUserActions.onOpenAddWExp()),
+    // onCloseAdd: () => dispatch(simpleUserActions.onCloseAddWExp()),
 
 });
 

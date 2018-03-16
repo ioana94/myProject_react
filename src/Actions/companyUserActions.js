@@ -144,4 +144,47 @@ export const onChangePage = (value, id) => {
     };
 };
 
-//
+
+export const changePageToUser = (id) => {
+    return (dispatch) => {
+        dispatch(push(`/user/${id}`));
+    };
+};
+
+// ================== GET USERS APPLICATIONS ========================
+
+export const getUsersApplications = (id) => {
+    return (dispatch) => {
+        http.get(`/userjobapplications/job/${id}`)
+            .then ((response) =>{dispatch(onGetUsersApplicationsSuccess(response.data));
+            })
+            .catch((error) => dispatch(onGetUsersApplicationsFailure(error)));
+    };
+};
+
+export const onGetUsersApplicationsSuccess = (payload) => {
+    return { type: 'GET_USERS_APP_SUCCESS', payload };
+};
+
+export const onGetUsersApplicationsFailure = (error) => {
+    return { type: 'GET_USERS_APP_ERROR', error };
+};
+
+export const onChangeAccept = (jobId, userId, appId, isAccepted) => {
+    return (dispatch) => {
+        http.put(`/userjobapplications/${appId}`, {jobId: jobId, userId: userId, isAccepted: !isAccepted})
+            .then((response) =>{
+               // dispatch(onAcceptApplicationSuccess(response.data));
+                dispatch(getUsersApplications(jobId))
+            })
+            .catch((error) => dispatch(onAcceptApplicationFailure(error)));
+    };
+};
+
+// export const onAcceptApplicationSuccess = (payload) => {
+//     return { type: 'GET_USERS_APP_SUCCESS', payload };
+// };
+
+export const onAcceptApplicationFailure = (error) => {
+    return { type: 'ACCEPT_APP_ERROR', error };
+};

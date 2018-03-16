@@ -5,6 +5,7 @@ import Button from 'material-ui/Button';
 import ContactInfo from '../../Components/S_UserProfile/ContactInfo';
 import Dialog from 'material-ui/Dialog';
 import UserEdit from '../../Components/S_UserProfile/UserEdit';
+import EditSimpleUser from '../../Components/S_UserProfile/EditSimpleUser';
 import Education from '../../Components/S_UserProfile/Education';
 import Grid from 'material-ui/Grid';
 import Skills from '../../Components/S_UserProfile/Skills';
@@ -18,13 +19,28 @@ import * as simpleUserActions from "../../Actions/simpleUserActions";
 
 class S_UserProfile extends React.Component {
 
+    // componentWillUpdate() {
+    //     const { match } = this.props;
+    //     const id = match.params.id;
+    //     console.log('THE ID', id);
+    //
+    //     this.props.getContact(id);
+    //     this.props.getSkills(id);
+    //     this.props.getWorkExperience(id);
+    //     this.props.getEducation(id);
+    //     this.props.getAppliedJobs(id);
+    //
+    // }
     componentDidMount() {
+        const { match } = this.props;
+        const id = match.params.id;
+        console.log('THE ID', id);
 
-        this.props.getContact(localStorage.getItem('USER_ID'));
-        this.props.getSkills(localStorage.getItem('USER_ID'));
-        this.props.getWorkExperience(localStorage.getItem('USER_ID'));
-        this.props.getEducation(localStorage.getItem('USER_ID'));
-        this.props.getAppliedJobs(localStorage.getItem('USER_ID'));
+        this.props.getContact(id);
+        this.props.getSkills(id);
+        this.props.getWorkExperience(id);
+        this.props.getEducation(id);
+        this.props.getAppliedJobs(id);
 
     }
 
@@ -37,6 +53,9 @@ class S_UserProfile extends React.Component {
             buttons: {
                 display: 'flex',
                 //justifyContent: 'flex-end',
+            },
+            dialog:{
+              width: 900,
             }
         };
 
@@ -49,6 +68,7 @@ class S_UserProfile extends React.Component {
             userWorkExperienceInfoList: [],
 
         }
+
         const onOpenEdit = () =>{
             this.props.onOpenEdit();
         };
@@ -99,21 +119,27 @@ class S_UserProfile extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
+                    {(localStorage.getItem('USER_ROLE') == 3)?
                     <Grid item xs={12} sm={6} md={4}>
                         <Grid container>
                             <Grid item xs={12}>
                                 <AppliedJobs/>
                             </Grid>
                         </Grid>
-                    </Grid>
+                    </Grid>:null}
                 </Grid>
 
+                {/*<Dialog open={this.props.hide}>*/}
+                    {/*<UserEdit*/}
+                        {/*onSave={onSaveEdit}*/}
+                        {/*contact={this.props.contact}*/}
+                        {/*moreContact={this.props.contactMoreInfo}*/}
+                        {/*workexp={this.props.workexp}*/}
+                        {/*education={this.props.education}*/}
+                    {/*/>*/}
+                {/*</Dialog>*/}
                 <Dialog open={this.props.hide}>
-                    <UserEdit
-                        onSave={onSaveEdit}
-                        contact={this.props.contact}
-                        moreContact={this.props.contactMoreInfo}
-                        workexp={this.props.workexp}/>
+                    <EditSimpleUser/>
                 </Dialog>
             </div>
 
@@ -140,6 +166,7 @@ const mapStateToProps = (state) => ({
     contact: state.simpleUserR.contact,
     contactMoreInfo: state.simpleUserR.moreContactInfos,
     workexp: state.simpleUserR.workExperience,
+    education: state.simpleUserR.education,
 });
 
 

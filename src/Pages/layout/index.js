@@ -7,11 +7,13 @@ import S_UserProfile from '../S_UserProfile';
 
 import Jobs from '../Jobs';
 import CompanyDetails from '../C_UserProfile/CompanyDetails';
+import MyApplications from '../C_UserProfile/MyApplications';
 import JobDetails from '../C_UserProfile/JobDetails';
 
 import Home from '../Home';
 import Sidebar from '../../Components/SideBar';
 import Users from '../Users';
+import Test from '../test';
 
 
 import { connect } from 'react-redux';
@@ -62,6 +64,8 @@ import { Route, Switch, Link } from 'react-router-dom';
                         {this.props.isLoggedIn ?
                             <ConnectedSwitch>
                                 <Route exact path="/" component={Home}/>
+
+                                <Route exact path="/test" component={Test}/>
                                 {(this.props.user.userRoleId == 1)?
                                     <Route exact path="/users" component={Users}/> : null }
                                 <Route exact path="/companies" component={Companies}/>
@@ -69,14 +73,17 @@ import { Route, Switch, Link } from 'react-router-dom';
                                 {(this.props.user.userRoleId == 2)?
                                      <Route exact path="/myprofile" component={C_UserProfile}/> : null }
                                 {(this.props.user.userRoleId == 3)?
-                                    <Route exact path="/myprofile" component={S_UserProfile}/> : null }
+                                    <Route exact path="/myprofile/:id" component={S_UserProfile}/> : null }
+                                {(this.props.user.userRoleId == 2)?
+                                    <Route exact path="/user/:id" component={S_UserProfile}/> : null }
                                 <Route exact path="/company/:id" component={CompanyDetails}/>
                                 <Route exact path="/job/:id" component={JobDetails}/>
+                                <Route exact path="/myApplications/:id" component={MyApplications}/>
                                 <Route exact path="*" component={Home}/>
                             </ConnectedSwitch>
                             :
                             <ConnectedSwitch>
-                                <Route exact path="/" component={Home}/>
+                                <Route exact path="/welcome" component={Home}/>
                             </ConnectedSwitch>
                         }
                     </div>

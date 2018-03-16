@@ -1,4 +1,6 @@
 import http from '../Config/http';
+import * as companyUserActions from "./companyUserActions";
+import {getJobs, onCreateJobtFailure} from "./jobsActions";
 
 
 // ================== CREATE ACTIONS ==========================
@@ -8,16 +10,48 @@ export const onOpenForm = () => {
 export const onExitForm = () => {
     return { type: 'ON_EXIT_CREATE'};
 };
+//
+// export const initCreate = (value) => {
+//     return (dispatch) => {
+//         http.post('/users', value)
+//             .then((response) => {
+//                 console.log("cream user");
+//                 dispatch(onCreateSuccess(response.data));
+//                 dispatch(getUsers());
+//             })
+//             .catch((error) => dispatch(onCreateFailure(error)));
+//     };
+// };
+export const initCreate = (user) => {
+    return async (dispatch) => {
+        try {
+            const response = await http.post(`/users`, user);
 
-export const initCreate = (value) => {
-    return (dispatch) => {
-        http.post('/users', value)
-            .then((response) => {
-                console.log("cream user");
-                dispatch(onCreateSuccess(response.data));
-                dispatch(getUsers());
-            })
-            .catch((error) => dispatch(onCreateFailure(error)));
+            // if (user.userEducationInfoList) {
+            //     const userId = response.data.id;
+            //     for (let i = 0; i < user.userEducationInfoList.length; i++ ) {
+            //         const education = user.userEducationInfoList[i];
+            //         education.userId = userId;
+            //
+            //         await http.post('/usereducations', education);
+            //     }
+            // }
+            // if (user.userWorkExperienceInfoList) {
+            //     const userId = response.data.id;
+            //     for (let i = 0; i < user.userWorkExperienceInfoList.length; i++ ) {
+            //         const workExp = user.userWorkExperienceInfoList[i];
+            //         workExp.userId = userId;
+            //
+            //         await http.post('/userworkexperiences', workExp);
+            //     }
+            // }
+
+            dispatch(onCreateSuccess(response.data));
+            dispatch(getUsers());
+        }
+        catch (error) {
+            dispatch(onCreateFailure(error));
+        }
     };
 };
 export const onCreateSuccess = (payload) => {

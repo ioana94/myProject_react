@@ -46,20 +46,20 @@ const reducer = (state = initialState, action) => {
         case 'CLOSE_EDIT':
             return {...state, hideEdit: false};
 
-        case 'OPEN_ADD_SKILL':
-            return {...state, openAddSkill: true};
-        case 'CLOSE_ADD_SKILL':
-            return {...state, openAddSkill: false};
-
-        case 'OPEN_ADD_WEXP':
-            return {...state, openAddWExp: true};
-        case 'CLOSE_ADD_WEXP':
-            return {...state, openAddWExp: false};
-
-        case 'OPEN_ADD_EDUCATION':
-            return {...state, openAddEducation: true};
-        case 'CLOSE_ADD_EDUCATION':
-            return {...state, openAddEducation: false};
+        // case 'OPEN_ADD_SKILL':
+        //     return {...state, openAddSkill: true};
+        // case 'CLOSE_ADD_SKILL':
+        //     return {...state, openAddSkill: false};
+        //
+        // case 'OPEN_ADD_WEXP':
+        //     return {...state, openAddWExp: true};
+        // case 'CLOSE_ADD_WEXP':
+        //     return {...state, openAddWExp: false};
+        //
+        // case 'OPEN_ADD_EDUCATION':
+        //     return {...state, openAddEducation: true};
+        // case 'CLOSE_ADD_EDUCATION':
+        //     return {...state, openAddEducation: false};
 
         case 'SAVE_EDIT_DETAILS_ERROR':
             console.log(action.error);

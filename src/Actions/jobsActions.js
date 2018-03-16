@@ -88,8 +88,18 @@ export const onCreateJobtFailure = (error) => {
 export const onChangePage = (value, id) => {
     return (dispatch) => {
         dispatch(push(`/job/${value}`));
-        localStorage.setItem('COMPANY_ID', id);
         localStorage.setItem('JOB_ID', value)
+        localStorage.setItem('COMPANY_ID', id);
+
+
+    };
+};
+
+export const onChangePageToApp = (id) => {
+    return (dispatch) => {
+        dispatch(push(`/myApplications/${id}`));
+        localStorage.setItem('JOB_ID', id);
+
 
     };
 };

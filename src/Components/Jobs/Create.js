@@ -10,9 +10,9 @@ import TextField from 'material-ui/TextField';
 import * as jobsActions from "../../Actions/jobsActions";
 import {connect} from "react-redux";
 
-function CreateJob (props) {
+class CreateJob extends React.Component {
 
-    let job = {
+    state =  {
         name: '',
         description: '',
         companyId: localStorage.getItem('COMPANY_ID'),
@@ -21,91 +21,147 @@ function CreateJob (props) {
 
     };
 
-    const aux = {
-        nameR: '',
-        nameB: '',
+
+    onInputChange = (event) => {
+        const propName = event.target.name;
+        const propValue = event.target.value;
+        const oldState = { ...this.state };
+
+        oldState[ propName ] = propValue;
+
+        this.setState({  ...oldState });
     };
 
-    const style = {
-        root: {
-            padding: 10,
-        }
+    // ================ ADD REQUIREMENTS ==========================
+
+    handleRequirementNameChange = (idx) => (evt) => {
+        const newJobRequirement = this.state.jobRequirementInfoList.map((n, sidx) => {
+            if (idx !== sidx) return n;
+            return { ...n, name: evt.target.value };
+        });
+
+        this.setState({ jobRequirementInfoList: newJobRequirement });
+    };
+
+    handleAddRequirement = () => {
+        this.setState({
+            jobRequirementInfoList: this.state.jobRequirementInfoList.concat([{ name: '' }])
+        });
+    };
+
+    // ================ ADD BENEFITS ==========================
+
+    handleBenefitNameChange = (idx) => (evt) => {
+        const newJobRequirement = this.state.jobBenefitInfoList.map((n, sidx) => {
+            if (idx !== sidx) return n;
+            return {...n, name: evt.target.value};
+        });
+
+        this.setState({jobBenefitInfoList: newJobRequirement});
+
+    };
+
+    handleAddBenefit = () => {
+        this.setState({
+            jobBenefitInfoList: this.state.jobBenefitInfoList.concat([{ name: '' }])
+        });
     };
 
 
-    const addToReqList = () => {
-        job.jobRequirementInfoList.push({name: aux.nameR});
-    };
-    const addToBnfList = () => {
-        job.jobBenefitInfoList.push({name: aux.nameB});
+    onCloseAddJob = () => {
+        this.props.closeAddJob();
+        console.log(this.state);
     };
 
-
-
-    const onCloseAddJob = () => {
-        props.closeAddJob();
-        //console.log(job);
-    };
-
-    const createJob = () => {
-        props.createJob(job);
-        onCloseAddJob();
+    createJob = () => {
+        this.props.createJob(this.state);
+        this.onCloseAddJob();
     }
 
-    return (
-        <Grid container style={style.root}>
-            <Grid item xs={12}>
-                <h3>Create New Job</h3>
-                <TextField
-                    fullWidth type="text" id = 'jobTitle' label="Job Title"
-                    onChange={(e)=>{job.name=e.target.value; console.log(job.name);}}
-                /><br/>
-                <TextField
-                    fullWidth type="text" id = 'jobDescr' label="Description"
-                    onChange={(e)=>{job.description=e.target.value; console.log(job.description);}}
-                /><br/>
-                <h4>Requirements</h4>
-            </Grid>
-            <Grid item xs={11}>
-                <TextField
-                    fullWidth type="text" name = 'require' id = 'require' label="Add Requirement"
-                    onChange={(e)=>{aux.nameR=e.target.value; console.log(aux.nameR);}}
-                /><br/>
-            </Grid>
-            <Grid item xs={1}>
-                <IconButton onClick={addToReqList}>
-                    <Add/>
-                </IconButton>
-            </Grid>
+    render() {
+        const style = {
+            root: {
+                padding: 10,
+            },
+            buttons: {
+                display: 'flex',
+                justifyContent: 'space-between',
+            }
+        };
 
-            {/*<Grid item={12}>*/}
+        return (
+            <Grid container style={style.root}>
+                <Grid item xs={12} style={style.header}>
+                    <pre>{ JSON.stringify(this.state, null, 2) }</pre>
+                </Grid>
+                <Grid item xs={12}>
+                    <h3>Create New Job</h3>
+                    <TextField
+                        fullWidth type="text" name='name' label="Job Title"
+                        onChange={this.onInputChange}
+                    /><br/>
+                    <TextField
+                        fullWidth type="text" name='description' label="Description"
+                        onChange={this.onInputChange}
+                    /><br/>
+                </Grid>
+                <Grid item xs={12}>
+                    <h4>Requirements</h4>
+                </Grid>
+                <Grid item xs={11}>
+                    {this.state.jobRequirementInfoList.map((n, idx) => (
+                        <TextField
+                            key={idx}
+                            fullWidth
+                            label="Add Requirement"
+                            name='requirementName'
+                            type="text"
+                            //value={n.name}
+                            //defaultValue={n.name}
+                            onChange={() => this.handleRequirementNameChange(idx)}
+                        />
+                    ))}
+                </Grid>
+                <Grid item xs={1}>
+                    <IconButton onClick={this.handleAddRequirement}>
+                        <Add/>
+                    </IconButton>
+                </Grid>
 
-            {/*<div id='requirementsDiv'>b</div>*/}
 
-            {/*</Grid>*/}
+                <Grid item xs={12}>
+                    <h4>Benefits</h4>
+                </Grid>
+                <Grid item xs={11}>
+                    {this.state.jobBenefitInfoList.map((n, idx) => (
+                        <TextField
+                            fullWidth
+                            type="text"
+                            name='benefitName'
+                            label='Add benefit'
+                            //defaultValue={n.name}
+                            //value={n.name}
+                            onChange={() => this.handleBenefitNameChange(idx)}
+                        />
+                    ))}
+                </Grid>
+                <Grid item xs={1}>
+                    <IconButton onClick={this.handleAddBenefit}>
+                        <Add/>
+                    </IconButton>
+                </Grid>
 
-            <Grid item xs={12}>
-                <h4>Benefits</h4>
+
+
+                <Grid item xs={12} style={style.buttons}>
+                    <Button color='secondary' onClick={this.createJob}>Create</Button>
+                    <Button color='default' onClick={this.onCloseAddJob}>Close</Button>
+                </Grid>
+
             </Grid>
-            <Grid item xs={11}>
-                <TextField fullWidth type="text" id = 'benef' label="Add Benefit"
-                           onChange={(e)=>{aux.nameB=e.target.value; console.log(aux.nameB);}}
-                /><br/>
-            </Grid>
-            <Grid item xs={1}>
-                <IconButton onClick={addToBnfList}>
-                    <Add/>
-                </IconButton>
-            </Grid>
-
-            <Grid item xs={12}>
-                <Button color='secondary' onClick={createJob}>Create</Button>
-                <Button color='secondary' onClick={onCloseAddJob}>Close</Button>
-            </Grid>
-
-        </Grid>
-    );
-};
+        );
+    }
+}
 
 const mapDispatchToProps = (dispatch) => ({
     closeAddJob: () => dispatch(jobsActions.closeAddJob()),

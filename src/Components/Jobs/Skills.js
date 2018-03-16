@@ -53,6 +53,8 @@ function Skills(props) {
     const skill = {
         skillId: '',
         jobId: JSON.parse(localStorage.getItem('JOB_ID')),
+        rating: 3,
+
     }
 
     const onOpenEdit = () => {
@@ -120,14 +122,6 @@ function Skills(props) {
                                 );
                             })}
                         </Select>
-                        {/*<TextField*/}
-                            {/*fullWidth*/}
-                            {/*label="Add Skill"*/}
-                            {/*className={classes.textField}*/}
-                            {/*onChange={(e) => {skill.name = e.target.value; console.log(skill.name)}}*/}
-                            {/*margin="normal"*/}
-                        {/*/>*/}
-
                     </div>
                     <div>
                         {props.skills.map(n=>{

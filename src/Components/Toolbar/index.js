@@ -5,8 +5,9 @@ import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
+import AccountBalance from 'material-ui-icons/AccountBalance';
+import FindReplace from 'material-ui-icons/FindReplace';
+import Snackbar from 'material-ui/Snackbar';
 
 import Dialog from 'material-ui/Dialog';
 import Login from '../../Components/Login';
@@ -15,6 +16,7 @@ import SignUp from '../../Components/SignUp';
 
 import { connect } from 'react-redux';
 import * as authActions from '../../Actions/auth.js';
+import { Link } from 'react-router-dom';
 
 const styles = {
     root: {
@@ -22,11 +24,15 @@ const styles = {
     },
     flex: {
         flex: 1,
+        fontStyle: 'italic',
     },
     menuButton: {
         marginLeft: -12,
-        marginRight: 20,
+        marginRight: 50,
     },
+    link: {
+        textDecoration: 'none',
+    }
 };
 
 const AppToolbar = (props) => {
@@ -39,23 +45,32 @@ const AppToolbar = (props) => {
         props.onLoginFromProps();
     };
 
-
     return (
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" >
-                        <MenuIcon />
-                    </IconButton>
-
+                    <div className={classes.menuButton}>
+                        <FindReplace />
+                    </div>
+                    {(localStorage.getItem('USER_ROLE') == 3)?
                     <Typography variant="title" color="inherit" className={classes.flex}>
+                        Find the job that suits you!
+                    </Typography>:
+                        (localStorage.getItem('USER_ROLE') == 2)?
+                        <Typography variant="title" color="inherit" className={classes.flex}>
+                            Here are the employees that you are looking for!
+                        </Typography>:
+                            <Typography variant="title" color="inherit" className={classes.flex}>
 
-                    </Typography>
+                            </Typography>}
 
-                    { props.isLoggedIn ? <Button onClick={onLogoutInComponent} color="inherit"> Logout</Button>:
+                    { props.isLoggedIn ?
+                        <Link to={'/welcome'} className={classes.link}>
+                            <Button onClick={onLogoutInComponent} color="inherit"> Logout</Button>
+                        </Link>:
                         <div>
-                        <Button color="inherit">SignUp</Button>
-                        <Button onClick={onLoginInComponent} color="inherit"> Login</Button>
+                            <Button color="inherit">SignUp</Button>
+                            <Button onClick={onLoginInComponent} color="inherit"> Login</Button>
                         </div>}
 
                     <Dialog
@@ -73,6 +88,15 @@ const AppToolbar = (props) => {
                     >
                         <SignUp/>
                     </Dialog>
+                    <Snackbar
+                        //anchorOrigin={'bottom', 'left'}
+                        open={props.openSnack}
+                        //onClose={close}
+                        SnackbarContentProps={{
+                            'aria-describedby': 'message-id',
+                        }}
+                        message={<span id="message-id">Try again !</span>}
+                    />
 
                 </Toolbar>
             </AppBar>
@@ -89,6 +113,7 @@ const mapStateToProps = (state) => ({
     isLoggedIn: state.auth.isLoggedIn,
     loggedInUserInfo: state.auth.loggedInUserInfo,
     open: state.auth.open,
+    openSnack: state.auth.openSnack,
 });
 
 

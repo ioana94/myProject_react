@@ -16,8 +16,7 @@ export const initLogin = (value) => {
                 else if(response.data.userRoleId === 2)
                     dispatch(push('/myprofile'));
                 else if(response.data.userRoleId === 3)
-                    dispatch(push('/myprofile'));
-
+                    dispatch(push(`/myprofile/${response.data.id}`));
             })
             .catch((error) => dispatch(onLoginFailure(error)));
     };
@@ -31,13 +30,13 @@ export const onLoginFailure = (error) => {
     return { type: 'ON_LOGIN_ERROR', error };
 };
 
+
+
 export const onLogout = () => {
     localStorage.clear();
-
-
-
     return { type: 'ON_LOGOUT' };
 };
+
 export const onOpen = () => {
     return { type: 'OPEN' };
 };

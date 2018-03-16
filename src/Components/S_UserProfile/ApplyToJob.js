@@ -10,22 +10,31 @@ import {connect} from "react-redux";
 function ApplyToJob (props){
     const style = {
         root:{
-            width: 500,
+            //width: 500,
             padding: 10,
             display: 'flex',
-            //flexDirection: 'column',
+            flexDirection: 'column',
             alignItems: 'center',
         },
         content: {
-            flexGrow: 1,
-        },
-        button: {
-            flex: 1,
+            //flexGrow: 1,
+            alignItems: 'center',
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-around',
-            width: 50,
         },
+        button: {
+            //flex: 1,
+            display: 'flex',
+            //flexDirection: 'column',
+            justifyContent: 'space-between',
+            //width: 50,
+        },
+        description:{
+            //fontSize: 'small',
+        },
+        header:{
+            fontSize: 'small',
+        }
     }
     const apply = {
         jobId: props.jobDetails.id,
@@ -45,9 +54,12 @@ function ApplyToJob (props){
     return (
         <div style={style.root}>
             <div style={style.content}>
-                You are about to apply to <h3>{props.jobDetails.name}</h3>
-                <i>{props.jobDetails.description}</i>
+                <div style={style.header}>You are about to apply to</div>
+                <div><h3>{props.jobDetails.name}</h3></div>
+                <div style={style.description}><i>&#8220;{props.jobDetails.description}&#8221;</i></div>
             </div>
+
+            <br/>
             <div style={style.button}>
                  <Button color="secondary" onClick={onApply}>Apply</Button>
                  <Button color="primary" onClick={exitApply}>Back</Button>

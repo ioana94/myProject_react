@@ -1,4 +1,6 @@
 import http from "../Config/http";
+import {push} from "react-router-redux";
+import {onLoginSuccess} from "./auth";
 
 
 //================= COMPONENT DID MOUNT ACTIONS ===========================
@@ -103,45 +105,72 @@ export const onCloseEdit = () => {
     return {type: 'CLOSE_EDIT'};
 };
 
-export const onOpenAddSkill = () => {
-    return {type: 'OPEN_ADD_SKILL'};
-};
-export const onCloseAddSkill = () => {
-    return {type: 'CLOSE_ADD_SKILL'};
-};
-
-export const onOpenAddWExp = () => {
-    return {type: 'OPEN_ADD_WEXP'};
-};
-export const onCloseAddWExp = () => {
-    return {type: 'CLOSE_ADD_WEXP'};
-};
-
-export const onOpenAddEducation = () => {
-    return {type: 'OPEN_ADD_EDUCATION'};
-};
-export const onCloseAddEducation = () => {
-    return {type: 'CLOSE_ADD_EDUCATION'};
-};
+// export const onOpenAddSkill = () => {
+//     return {type: 'OPEN_ADD_SKILL'};
+// };
+// export const onCloseAddSkill = () => {
+//     return {type: 'CLOSE_ADD_SKILL'};
+// };
+//
+// export const onOpenAddWExp = () => {
+//     return {type: 'OPEN_ADD_WEXP'};
+// };
+// export const onCloseAddWExp = () => {
+//     return {type: 'CLOSE_ADD_WEXP'};
+// };
+//
+// export const onOpenAddEducation = () => {
+//     return {type: 'OPEN_ADD_EDUCATION'};
+// };
+// export const onCloseAddEducation = () => {
+//     return {type: 'CLOSE_ADD_EDUCATION'};
+// };
 
 
 export const saveNewDetails = (user) => {
     return async (dispatch) => {
         try {
-            const response = await http.put(`/users/${user.id}`);
+            const response = await http.put(`/users/${user.id}`, user);
+
             if(user.contactInfo){
-                const contactId = response.data.contactInfo.id;
+                const contactId = response.data.contactInfoId;
                 await http.put(`/contacts/${contactId}`, user.contactInfo);
-                dispatch(getContact());
+                dispatch(getContact(response.data.id));
             }
             else {
-                const userId = response.data.id;
+                const userId = user.id;
                 const contactInfo = user.contactInfo;
                 contactInfo.userId = userId;
                 await http.post(`/contacts`, contactInfo);
-                dispatch(getContact());
+                dispatch(getContact(user.id));
+                //dispatch(onLoginSuccess(response.data));
             }
+
+            if (user.userWorkExperienceInfoList) {
+                const userId = user.id;
+                for (let i = 0; i < user.userWorkExperienceInfoList.length; i++ ) {
+                    const wExp = user.userWorkExperienceInfoList[i];
+                    wExp.userId = userId;
+
+                    await http.post(`/userworkexperiences`, wExp);
+                    dispatch(getWorkExperience(user.id));
+                }
+            }
+
+            if (user.userEducationInfoList) {
+                const userId = user.id;
+                for (let i = 0; i < user.userEducationInfoList.length; i++ ) {
+                    const edu = user.userEducationInfoList[i];
+                    edu.userId = userId;
+
+                    await http.post(`/usereducations`, edu);
+                    dispatch(getEducation(user.id));
+                }
+            }
+
+
             console.log(response.data);
+            dispatch(onCloseEdit());
         }
         catch(error){
             dispatch(onSaveDetailsFailure(error));
@@ -152,3 +181,11 @@ export const saveNewDetails = (user) => {
 export const onSaveDetailsFailure = (error) =>{
     return {type: 'SAVE_EDIT_DETAILS_ERROR', error};
 }
+
+
+// ================ CHANGE PAGE ============================
+export const changePage = (id) => {
+    return (dispatch) => {
+        dispatch(push(`/job/${id}`));
+    };
+};
